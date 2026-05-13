@@ -30,6 +30,8 @@ Nipe menggunakan iptables dan ip6tables untuk menerapkan aturan pengalihan masin
 
 **NipeX (Nipe Extended)** adalah fork dari [Nipe](https://github.com/htrgouvea/nipe) oleh Heitor Gouvêa, yang diperluas dengan berbagai alat privasi & keamanan tambahan. Dibangun untuk sistem Debian, NipeX mengintegrasikan Nipe dengan alat-alat penting lainnya untuk membersihkan metadata, mengelola MAC address, mengonfigurasi firewall (UFW), memantau lalu lintas, memindai rootkit, dan banyak lagi, semua dari satu antarmuka yang mudah digunakan.
 
+Selain menggunakan Tor sebagai gateway default, Anda juga dapat men-deploy bridge obfs4 Anda sendiri menggunakan Docker untuk meningkatkan ketahanan terhadap sensor dan pemblokiran jaringan Tor. Fitur ini memungkinkan Anda menjalankan bridge obfs4 pribadi yang dapat membantu pengguna lain mengakses jaringan Tor di lingkungan dengan pembatasan ketat.
+
 ---
 
 ### Unduh dan Pasang
@@ -88,6 +90,38 @@ MAIN TOOLS
 
 Pilih menu [0-14]: 
 ```
+
+---
+
+### Deploy Bridge obfs4 Anda Sendiri
+
+NipeX menyertakan dukungan untuk men-deploy bridge obfs4 Anda sendiri menggunakan Docker. Bridge obfs4 adalah jenis bridge Tor yang menggunakan protokol obfuscation untuk menyembunyikan lalu lintas Tor, membuatnya lebih sulit dideteksi dan diblokir. Dengan men-deploy bridge obfs4 Anda sendiri, Anda dapat:
+
+- Membantu pengguna lain mengakses jaringan Tor di lingkungan dengan sensor ketat
+- Meningkatkan ketahanan jaringan Tor secara keseluruhan
+- Menjalankan bridge pribadi yang dapat Anda gunakan sendiri atau bagikan
+
+Untuk men-deploy bridge obfs4:
+
+1. Pastikan Docker dan Docker Compose telah terinstall di sistem Anda. Jika belum, Anda dapat menggunakan skrip instalasi yang disediakan:
+   ```bash
+   # Untuk Debian
+   ./install-docker-engine-on-debian.sh
+   
+   # Atau untuk Ubuntu
+   ./install-docker-engine-on-ubuntu.sh
+   ```
+2. Edit dan sesuaikan file `.env` dari direktori `obfs4-docker`:
+   ```bash
+   cd obfs4-docker
+   cp .env.example .env
+   nano .env  # atau gunakan editor teks pilihan Anda
+   ```
+   Sesuaikan variabel seperti `OR_PORT`, `PT_PORT`, `NICKNAME`, `EMAIL`, dan lainnya sesuai kebutuhan Anda.
+3. Jalankan NipeX dan pilih menu **14) Deploy obfs4-Docker**
+4. Gunakan opsi **Start** untuk menjalankan container bridge obfs4
+5. Verifikasi bahwa bridge berjalan dengan baik menggunakan opsi **Verify**
+6. Bridge Anda akan tersedia dan dapat digunakan oleh klien Tor yang membutuhkan
 
 ---
 
